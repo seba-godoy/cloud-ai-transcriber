@@ -4,11 +4,18 @@
 
 This public repository is a **sanitized portfolio snapshot** of a personal project built with Python, Gemini, Google Drive, Telegram and Google Cloud. The code demonstrates the design; it is not a public transcription service. Production credentials, private recordings, transcripts, infrastructure identifiers and operational history are excluded.
 
+[Guía en español para entender y presentar el proyecto](docs/GUIA_ENTREVISTA_ES.md)
+
 ## The problem
 
 Long class recordings are difficult to review and organize. The workflow turns audio into DOCX/PDF documents, stores them in Drive and reports progress through Telegram. It is designed to resume interrupted work rather than repeatedly process an entire recording.
 
 ## Cloud workflow at a glance
+
+![Cloud transcription workflow: inputs, Python execution, Gemini API, durable state and outputs](docs/assets/cloud-workflow.svg)
+
+<details>
+<summary>View the editable Mermaid flow</summary>
 
 ```mermaid
 flowchart TD
@@ -26,9 +33,11 @@ flowchart TD
     F -->|Resume completed chunks| R
 ```
 
+</details>
+
 **Reading the diagram:** Cloud Run executes the Python workflow. Gemini provides transcription. Firestore records processing state; Drive stores the source recordings and output documents. These services have different roles.
 
-The interview-facing cloud workflow covers recordings from Drive and authorized Telegram media/operations. Legacy source adapters remain in the snapshot for historical compatibility and are not a claim of current cloud functionality.
+The cloud workflow presented here covers recordings from Drive and authorized Telegram media/operations. Legacy source adapters remain in the snapshot for historical compatibility and are not a claim of current cloud functionality.
 
 ## Why it is more than a model call
 
@@ -79,9 +88,11 @@ You need Python 3.12, FFmpeg/FFprobe and your **own** Drive OAuth application, G
 
 ```bash
 python -m venv .venv
-python -m pip install -r requirements.txt
-python -m unittest discover -s tests -v
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m unittest discover -s tests -v
 ```
+
+On Windows, use `.venv\Scripts\python.exe` instead of `.venv/bin/python`.
 
 These commands install dependencies and run tests; they do not provision or deploy the cloud system. Cloud operation requires independent IAM, Secret Manager, Firestore and scheduler configuration. The snapshot includes a legacy continuous local mode and a one-shot mode suitable for Cloud Run Jobs.
 
