@@ -8,7 +8,7 @@ Automatically process long recordings with bounded memory usage while tolerating
 
 ## Data flow
 
-1. **Ingest:** Google Drive folder polling, Telegram audio/media and messages, or a YouTube URL.
+1. **Ingest:** Google Drive folder polling and authorized Telegram audio/media, messages and commands. The cloud workflow presented here excludes legacy source adapters that are no longer part of the current cloud use case.
 2. **Identify:** Build a source-specific identity to determine whether the media was already processed.
 3. **Coordinate:** Acquire durable state/lease ownership for cloud runs. The legacy local runtime has a separate local state implementation.
 4. **Extract:** Inspect the audio stream with FFprobe. Extract individual bounded PCM chunks with FFmpeg; avoid loading an entire long recording into RAM.
@@ -16,6 +16,10 @@ Automatically process long recordings with bounded memory usage while tolerating
 6. **Checkpoint:** Persist per-chunk results before advancing so interrupted work can resume without starting over.
 7. **Publish:** Assemble DOCX/PDF, use idempotent uploads to Drive, and confirm notification state.
 8. **Operate:** Track state and progress with Firestore, Telegram commands, and a separate read-only dashboard.
+
+## Snapshot scope
+
+The public code is a historical, sanitized snapshot. Legacy adapters may remain in the source; their presence does not establish that the corresponding feature runs in the current private deployment. This documentation presents the current cloud use case described by the project owner and does not claim to be a fresh production deployment audit.
 
 ## Major modules
 
@@ -25,14 +29,13 @@ Automatically process long recordings with bounded memory usage while tolerating
 | Configuration | `config.py` | Environment-based settings, validation, logical owner routing |
 | Drive | `drive_client.py`, `drive_watcher.py`, `drive_uploader.py` | Authenticated ingestion and idempotent output |
 | Telegram | `telegram_notifier.py`, `telegram_commands.py` | Authorized input, notifications, and status commands |
-| YouTube | `youtube_ingest.py` | Media discovery, extraction and fallback routes |
 | Transcription | `gemini_transcriber.py` | Audio chunking, model calls, quality safeguards |
 | Recovery | `long_media_runtime.py`, `quality_rescue_runtime.py`, `retry_epoch_runtime.py` | Long-media and retry/recovery boundaries |
 | Persistence | `state_store.py`, `state_backend.py` | Local state, Firestore state, checkpoints, leases |
 | Presentation | `docx_writer.py`, `pdf_writer.py` | Documents |
 | Status UI | `dashboard_app.py`, `dashboard/index.html` | Read-only job summaries |
 
-## Run modes and guarantees
+## Run modes and protections
 
 - **Local:** Continuous polling, local state and file checkpoints for legacy compatibility.
 - **Cloud-oriented:** One-shot execution suitable for Cloud Run Jobs; Firestore stores durable job state. Cloud Scheduler or an external trigger starts work.

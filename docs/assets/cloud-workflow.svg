@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="690" viewBox="0 0 1120 690" role="img" aria-labelledby="title desc">
+  <title id="title">Cloud AI Transcriber — recording to document</title>
+  <desc id="desc">Drive recordings and authorized Telegram media are processed by a scheduled Python Cloud Run Job. FFmpeg prepares audio, the job calls the external Gemini API, and documents are assembled. Firestore stores progress, Secret Manager supplies credentials, and Drive and Telegram deliver results.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10Z" fill="#64748b"/></marker>
+    <style>
+      text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; }
+      .title { font-size: 28px; font-weight: 700; fill: #0f172a; }
+      .sub { font-size: 15px; fill: #475569; }
+      .label { font-size: 17px; font-weight: 650; fill: #0f172a; }
+      .detail { font-size: 14px; fill: #475569; }
+      .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; fill: #2563eb; }
+      .card { fill: #ffffff; stroke: #cbd5e1; stroke-width: 1.5; }
+      .edge { fill: none; stroke: #64748b; stroke-width: 2; marker-end: url(#arrow); }
+    </style>
+  </defs>
+  <rect width="1120" height="690" rx="20" fill="#f8fafc"/>
+  <text x="40" y="49" class="title">Cloud AI Transcriber</text>
+  <text x="40" y="77" class="sub">From long recordings to organized documents — with durable progress</text>
+
+  <rect x="40" y="110" width="300" height="88" rx="12" class="card"/>
+  <text x="60" y="144" class="label">Google Drive</text>
+  <text x="60" y="171" class="detail">Source recordings</text>
+  <rect x="390" y="110" width="300" height="88" rx="12" class="card"/>
+  <text x="410" y="144" class="label">Telegram</text>
+  <text x="410" y="171" class="detail">Authorized media and commands</text>
+  <rect x="790" y="110" width="290" height="88" rx="12" class="card"/>
+  <text x="810" y="144" class="label">Cloud Scheduler</text>
+  <text x="810" y="171" class="detail">Starts a job execution</text>
+
+  <path class="edge" d="M190 198 V258"/>
+  <path class="edge" d="M540 198 V258"/>
+  <path class="edge" d="M935 198 V225 H650 V258"/>
+
+  <rect x="40" y="258" width="650" height="192" rx="16" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="60" y="288" class="eyebrow">EXECUTION · CLOUD RUN JOB · PYTHON</text>
+  <rect x="60" y="310" width="180" height="95" rx="10" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="77" y="343" class="label">Prepare audio</text>
+  <text x="77" y="370" class="detail">FFmpeg / FFprobe</text>
+  <text x="77" y="390" class="detail">Bounded chunks</text>
+  <rect x="270" y="310" width="180" height="95" rx="10" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="287" y="343" class="label">Transcribe</text>
+  <text x="287" y="370" class="detail">Call the AI API</text>
+  <text x="287" y="390" class="detail">Save chunk results</text>
+  <rect x="480" y="310" width="190" height="95" rx="10" fill="#ffffff" stroke="#bfdbfe"/>
+  <text x="497" y="343" class="label">Build documents</text>
+  <text x="497" y="370" class="detail">Assemble DOCX / PDF</text>
+  <text x="497" y="390" class="detail">Publish results</text>
+  <path class="edge" d="M240 358 H267"/>
+  <path class="edge" d="M450 358 H477"/>
+  <text x="60" y="431" class="detail">Identify sources · coordinate work · retry transient failures · resume progress</text>
+
+  <rect x="790" y="258" width="290" height="95" rx="12" fill="#f5f3ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="810" y="292" class="label">Gemini API</text>
+  <text x="810" y="319" class="detail">External AI transcription service</text>
+  <path class="edge" d="M360 310 V298 H725 V280 H790" marker-start="url(#arrow)"/>
+  <rect x="790" y="385" width="290" height="95" rx="12" fill="#ecfdf5" stroke="#6ee7b7" stroke-width="1.5"/>
+  <text x="810" y="419" class="label">Results and notifications</text>
+  <text x="810" y="446" class="detail">Drive documents · Telegram status</text>
+  <path class="edge" d="M670 380 H750 V432 H790"/>
+
+  <rect x="40" y="525" width="300" height="100" rx="12" class="card"/>
+  <text x="60" y="559" class="label">Firestore</text>
+  <text x="60" y="586" class="detail">State · checkpoints · coordination</text>
+  <text x="60" y="608" class="detail">Reuse completed work after interruption</text>
+  <path class="edge" d="M190 450 V525" marker-start="url(#arrow)"/>
+  <rect x="390" y="525" width="300" height="100" rx="12" class="card"/>
+  <text x="410" y="559" class="label">Secret Manager + IAM</text>
+  <text x="410" y="586" class="detail">Runtime secrets and service permissions</text>
+  <text x="410" y="608" class="detail">Drive access uses separate user OAuth</text>
+  <path class="edge" d="M540 525 V450"/>
+  <text x="790" y="552" class="eyebrow">PORTFOLIO SCOPE</text>
+  <text x="790" y="581" class="detail">Conceptual cloud workflow.</text>
+  <text x="790" y="603" class="detail">Private deployment details excluded.</text>
+  <text x="40" y="663" class="sub">The model produces text. The surrounding system makes the workflow recoverable and operable.</text>
+</svg>
